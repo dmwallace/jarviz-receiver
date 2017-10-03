@@ -1,0 +1,31 @@
+{
+  "name": "jarviz-receiver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --config config/webpack.config.server.js",
+    "start": "node build/jarviz-receiver.js",
+    "autorun": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"node c:\\jarviz-receiver\\build\\jarviz-receiver.js\" /F",
+    "setup": "npm run autorun && npm install && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.1",
+    "cors": "^2.8.4",
+    "express": "^4.15.4",
+    "fkill": "^5.1.0",
+    "node-cmd": "^3.0.0",
+    "ps-tree": "^1.1.0",
+    "start-server-webpack-plugin": "^2.2.0",
+    "webpack": "^3.5.5",
+    "webpack-node-externals": "^1.6.0"
+  }
+}
