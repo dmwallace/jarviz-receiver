@@ -18,19 +18,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "auto-updater": "^1.0.2",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.1",
     "cors": "^2.8.4",
     "express": "^4.15.4",
-    "fkill": "^5.1.0",
-    "node-cmd": "^3.0.0",
-    "ps-tree": "^1.1.0",
+    "fkill": "^5.1.0"
+  },
+  "devDependencies": {
     "start-server-webpack-plugin": "^2.2.0",
     "webpack": "^3.5.5",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0"
   }
 }
