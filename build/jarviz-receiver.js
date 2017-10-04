@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "498069ff3ac8cdad2952"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "bcdc18d70c8c1ea64a2b"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1034,7 +1034,7 @@ async function killProcess() {
     return { results, errors };
 }
 
-function sendTelnetCommand(cmd, host, port) {
+function sendTelnetCommand({ cmd, host, port, username }) {
     console.log(`sendTelnetCommand(${cmd})`);
 
     var onDataCount = 0;
@@ -1055,7 +1055,7 @@ function sendTelnetCommand(cmd, host, port) {
                 case 1:
                     // login
                     console.log("login");
-                    socket.write(`${config.telnet.username}\r\n`);
+                    socket.write(`${username}\r\n`);
                     break;
                 case 2:
                     // carriage return

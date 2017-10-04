@@ -169,7 +169,7 @@ async function killProcess() {
     return {results, errors};
 }
 
-function sendTelnetCommand(cmd, host, port) {
+function sendTelnetCommand({cmd, host, port, username}) {
     console.log(`sendTelnetCommand(${cmd})`);
 
     var onDataCount = 0;
@@ -192,7 +192,7 @@ function sendTelnetCommand(cmd, host, port) {
                 case 1:
                     // login
                     console.log("login");
-                    socket.write(`${config.telnet.username}\r\n`);
+                    socket.write(`${username}\r\n`);
                     break;
                 case 2:
                     // carriage return

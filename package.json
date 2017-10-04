@@ -1,6 +1,10 @@
 {
   "name": "jarviz-receiver",
   "version": "1.0.0",
+  "auto-updater": {
+    "repo": "dmwallace/jarviz-receiver",
+    "branch": "master"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "auto-updater": "^1.0.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
