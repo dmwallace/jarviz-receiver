@@ -10,9 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --config config/webpack.config.server.js",
-    "start": "node build/jarviz-receiver.js",
-    "autorun": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"node c:\\jarviz-receiver\\build\\jarviz-receiver.js\" /F",
-    "setup": "npm run autorun && npm install && npm start"
+    "start": "node build/jarviz-receiver.js"
   },
   "keywords": [],
   "author": "",
