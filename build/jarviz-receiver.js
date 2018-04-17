@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d036241b1be5274a855b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e2c3c57e295afc92f45b"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1034,8 +1034,27 @@ async function killProcess() {
     return { results, errors };
 }
 
+var telnetBusy = false;
+var telnetQueue = [];
+
+function popTelnetQueue() {
+    if (telnetQueue.length > 0) {
+        sendTelnetCommand(telnetQueue.shift());
+    }
+}
+
 function sendTelnetCommand({ cmd, host, port, username }) {
+    console.log("telnetBusy", telnetBusy);
+    if (telnetBusy) {
+        telnetQueue.push({ cmd, host, port, username });
+        console.log("telnetQueue.length", telnetQueue.length);
+
+        return;
+    }
+
     console.log(`sendTelnetCommand(${cmd})`);
+
+    telnetBusy = true;
 
     var onDataCount = 0;
     var socket = __WEBPACK_IMPORTED_MODULE_6_net___default.a.connect(port, host, function () {
@@ -1070,6 +1089,8 @@ function sendTelnetCommand({ cmd, host, port, username }) {
                 default:
                     console.log("closing telnet connection");
                     socket.end();
+                    telnetBusy = false;
+                    popTelnetQueue();
                     break;
             }
         });
@@ -1078,6 +1099,8 @@ function sendTelnetCommand({ cmd, host, port, username }) {
     socket.on("error", function (err) {
         console.log("Error");
         console.log(err);
+        telnetBusy = false;
+        popTelnetQueue();
     });
 }
 
