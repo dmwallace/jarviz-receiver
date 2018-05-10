@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9b69a616500fdf0151ac"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "6b481bd09900f6e6d663"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -879,10 +879,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var fs = __webpack_require__("fs");
 
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'));
-console.log(`Jarviz Receiver version: ${packageJSON.version}`);
-console.log("\n");
-console.log(`Hostname: ${__WEBPACK_IMPORTED_MODULE_1_os___default.a.hostname()}`);
-console.log("\n");
+console.log("\n----------------------------------------------------------------------");
+console.log(`Jarviz Receiver version: ${packageJSON.version}\n`);
+console.log(`Hostname: ${__WEBPACK_IMPORTED_MODULE_1_os___default.a.hostname()}\n`);
 console.log("Network Interfaces:");
 
 var ifaces = __WEBPACK_IMPORTED_MODULE_1_os___default.a.networkInterfaces();
@@ -906,8 +905,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 		++alias;
 	});
 });
-
-console.log("\n");
+console.log("----------------------------------------------------------------------\n");
 
 const app = __WEBPACK_IMPORTED_MODULE_0_express___default()();
 app.use(__WEBPACK_IMPORTED_MODULE_4_cors___default()());
