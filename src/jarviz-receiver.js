@@ -89,21 +89,15 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({results, errors}));
 });
 
-async function spawnChild({id, command, cwd, args}, res) {
+async function spawnChild({id, command, cwd, args=""}, res) {
 	let {results, errors} = await killProcess();
 	
 	
 	console.log("spawning");
 	
-	if(args && args.length) {
-		args = args.split(' ');
-	} else {
-		args = ""
-	}
-	
 	child = spawn(
 		command,
-		args,
+		args.split(' ')/*/,
 		{
 			cwd
 		}
