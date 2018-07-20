@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a39704686ed2846a77e8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a6d52e5f9baa6bdeb405"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -886,7 +886,6 @@ console.log("Network Interfaces:");
 
 var ifaces = __WEBPACK_IMPORTED_MODULE_1_os___default.a.networkInterfaces();
 
-var reloadTimerId;
 var currentAppId;
 var currentScenarioId;
 
@@ -1023,18 +1022,6 @@ app.post('/launch', async (req, res) => {
 	console.log("req.body", req.body);
 
 	spawnChild(req.body);
-
-	if (reloadTimerId) {
-		clearInterval(reloadTimerId);
-		reloadTimerId = undefined;
-	}
-	if (reloadInterval) {
-		setInterval(() => {
-			child = Object(__WEBPACK_IMPORTED_MODULE_2_child_process__["spawn"])(command, args.split(' '), {
-				cwd
-			});
-		}, parseInt(reloadInterval));
-	}
 });
 
 async function killProcess() {

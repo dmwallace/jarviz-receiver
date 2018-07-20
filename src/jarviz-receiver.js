@@ -15,7 +15,6 @@ console.log("Network Interfaces:");
 
 var ifaces = os.networkInterfaces();
 
-var reloadTimerId;
 var currentAppId;
 var currentScenarioId;
 
@@ -159,22 +158,6 @@ app.post('/launch', async (req, res) => {
 	console.log("req.body", req.body);
 	
 	spawnChild(req.body);
-	
-	if (reloadTimerId) {
-		clearInterval(reloadTimerId);
-		reloadTimerId = undefined;
-	}
-	if (reloadInterval) {
-		setInterval(() => {
-			child = spawn(
-				command,
-				args.split(' '),
-				{
-					cwd
-				}
-			);
-		}, parseInt(reloadInterval))
-	}
 	
 	
 });
