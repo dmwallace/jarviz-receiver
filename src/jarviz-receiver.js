@@ -89,7 +89,7 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({results, errors}));
 });
 
-async function spawnChild({id, command, cwd, args}) {
+async function spawnChild({id, command, cwd, args}, res) {
 	let {results, errors} = await killProcess();
 	
 	
@@ -159,7 +159,7 @@ app.post('/launch', async (req, res) => {
 	
 	console.log("req.body", req.body);
 	
-	spawnChild(req.body);
+	spawnChild(req.body, res);
 	
 	
 });

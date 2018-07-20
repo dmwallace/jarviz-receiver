@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4def5fae952c176d8112"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d3d106d2cf917cb4d4e2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -959,7 +959,7 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({ results, errors }));
 });
 
-async function spawnChild({ id, command, cwd, args }) {
+async function spawnChild({ id, command, cwd, args }, res) {
 	let { results, errors } = await killProcess();
 
 	console.log("spawning");
@@ -1023,7 +1023,7 @@ app.post('/launch', async (req, res) => {
 
 	console.log("req.body", req.body);
 
-	spawnChild(req.body);
+	spawnChild(req.body, res);
 });
 
 async function killProcess() {
