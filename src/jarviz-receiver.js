@@ -97,6 +97,8 @@ async function spawnChild({id, command, cwd, args}) {
 	
 	if(args && args.length) {
 		args = args.split(' ');
+	} else {
+		args = ""
 	}
 	
 	child = spawn(

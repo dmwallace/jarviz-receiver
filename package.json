@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "auto-updater": {
     "repo": "dmwallace/jarviz-receiver",
     "branch": "master"

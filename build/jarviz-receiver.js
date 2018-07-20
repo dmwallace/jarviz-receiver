@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a6d52e5f9baa6bdeb405"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4def5fae952c176d8112"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -966,6 +966,8 @@ async function spawnChild({ id, command, cwd, args }) {
 
 	if (args && args.length) {
 		args = args.split(' ');
+	} else {
+		args = "";
 	}
 
 	child = Object(__WEBPACK_IMPORTED_MODULE_2_child_process__["spawn"])(command, args, {
