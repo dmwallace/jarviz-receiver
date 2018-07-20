@@ -15,6 +15,10 @@ console.log("Network Interfaces:");
 
 var ifaces = os.networkInterfaces();
 
+var reloadTimerId;
+var currentAppId;
+var currentScenarioId;
+
 Object.keys(ifaces).forEach(function (ifname) {
 	var alias = 0;
 	
@@ -72,6 +76,12 @@ app.get('/ping', async (req, res) => {
 	res.send(JSON.stringify(response));
 });
 
+app.get('/poll', async (req, res)=>{
+	let response = {
+		hostname: os.hostname()
+	}
+})
+
 app.post('/kill', async (req, res) => {
 	console.log(`\n\n${new Date().toISOString()} NEW KILL REQUEST ---------------------------`);
 	
@@ -80,24 +90,24 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({results, errors}));
 });
 
-app.post('/launch', async (req, res) => {
-	console.log(`\n\n${new Date().toISOString()} NEW LAUNCH REQUEST ---------------------------`);
-	
-	console.log("req.body", req.body);
-	
-	let {command, cwd, args} = req.body;
-	
+async function spawnChild({id, command, cwd, args}) {
 	let {results, errors} = await killProcess();
+	
 	
 	console.log("spawning");
 	
+	if(args && args.length) {
+		args = args.split(' ');
+	}
+	
 	child = spawn(
 		command,
-		args.split(' '),
+		args,
 		{
 			cwd
 		}
 	);
+	
 	
 	child.stdout.on('data', function (data) {
 		//console.log('stdout: ' + data);
@@ -141,6 +151,32 @@ app.post('/launch', async (req, res) => {
 			console.log("ERRORS:", JSON.stringify(errors, null, 3));
 		}, 1000);
 	}
+}
+
+app.post('/launch', async (req, res) => {
+	console.log(`\n\n${new Date().toISOString()} NEW LAUNCH REQUEST ---------------------------`);
+	
+	console.log("req.body", req.body);
+	
+	spawnChild(req.body);
+	
+	if (reloadTimerId) {
+		clearInterval(reloadTimerId);
+		reloadTimerId = undefined;
+	}
+	if (reloadInterval) {
+		setInterval(() => {
+			child = spawn(
+				command,
+				args.split(' '),
+				{
+					cwd
+				}
+			);
+		}, parseInt(reloadInterval))
+	}
+	
+	
 });
 
 

@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6b481bd09900f6e6d663"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a39704686ed2846a77e8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -886,6 +886,10 @@ console.log("Network Interfaces:");
 
 var ifaces = __WEBPACK_IMPORTED_MODULE_1_os___default.a.networkInterfaces();
 
+var reloadTimerId;
+var currentAppId;
+var currentScenarioId;
+
 Object.keys(ifaces).forEach(function (ifname) {
 	var alias = 0;
 
@@ -942,6 +946,12 @@ app.get('/ping', async (req, res) => {
 	res.send(JSON.stringify(response));
 });
 
+app.get('/poll', async (req, res) => {
+	let response = {
+		hostname: __WEBPACK_IMPORTED_MODULE_1_os___default.a.hostname()
+	};
+});
+
 app.post('/kill', async (req, res) => {
 	console.log(`\n\n${new Date().toISOString()} NEW KILL REQUEST ---------------------------`);
 
@@ -950,18 +960,16 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({ results, errors }));
 });
 
-app.post('/launch', async (req, res) => {
-	console.log(`\n\n${new Date().toISOString()} NEW LAUNCH REQUEST ---------------------------`);
-
-	console.log("req.body", req.body);
-
-	let { command, cwd, args } = req.body;
-
+async function spawnChild({ id, command, cwd, args }) {
 	let { results, errors } = await killProcess();
 
 	console.log("spawning");
 
-	child = Object(__WEBPACK_IMPORTED_MODULE_2_child_process__["spawn"])(command, args.split(' '), {
+	if (args && args.length) {
+		args = args.split(' ');
+	}
+
+	child = Object(__WEBPACK_IMPORTED_MODULE_2_child_process__["spawn"])(command, args, {
 		cwd
 	});
 
@@ -1006,6 +1014,26 @@ app.post('/launch', async (req, res) => {
 			console.log("\nRESULTS:", JSON.stringify(results, null, 3));
 			console.log("ERRORS:", JSON.stringify(errors, null, 3));
 		}, 1000);
+	}
+}
+
+app.post('/launch', async (req, res) => {
+	console.log(`\n\n${new Date().toISOString()} NEW LAUNCH REQUEST ---------------------------`);
+
+	console.log("req.body", req.body);
+
+	spawnChild(req.body);
+
+	if (reloadTimerId) {
+		clearInterval(reloadTimerId);
+		reloadTimerId = undefined;
+	}
+	if (reloadInterval) {
+		setInterval(() => {
+			child = Object(__WEBPACK_IMPORTED_MODULE_2_child_process__["spawn"])(command, args.split(' '), {
+				cwd
+			});
+		}, parseInt(reloadInterval));
 	}
 });
 
