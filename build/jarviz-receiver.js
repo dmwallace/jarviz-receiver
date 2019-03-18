@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c8d447ba068768825d61"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2300e5f287e16284250e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -831,60 +831,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_http__ = __webpack_require__("http");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_http___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_http__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__ = __webpack_require__("./src/jarviz-receiver.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__);
 
 
 
-const server = __WEBPACK_IMPORTED_MODULE_0_http___default.a.createServer(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__["default"]);
-let currentApp = __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__["default"];
+const server = __WEBPACK_IMPORTED_MODULE_0_http___default.a.createServer(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a);
+let currentApp = __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a;
 const port = 5000;
 server.listen(port);
 console.log(`Listening on port ${port}`);
 
 if (true) {
-    module.hot.accept("./src/jarviz-receiver.js", function(__WEBPACK_OUTDATED_DEPENDENCIES__) { /* harmony import */ __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__ = __webpack_require__("./src/jarviz-receiver.js"); (() => {
+    module.hot.accept("./src/jarviz-receiver.js", function(__WEBPACK_OUTDATED_DEPENDENCIES__) { /* harmony import */ __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__ = __webpack_require__("./src/jarviz-receiver.js"); /* harmony import */ __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__); (() => {
         server.removeListener('request', currentApp);
-        server.on('request', __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__["default"]);
-        currentApp = __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__["default"];
+        server.on('request', __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a);
+        currentApp = __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a;
     })(__WEBPACK_OUTDATED_DEPENDENCIES__); });
 }
 
 /***/ }),
 
 /***/ "./src/jarviz-receiver.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__("express");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_os__ = __webpack_require__("os");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_os___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_os__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_child_process__ = __webpack_require__("child_process");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_child_process___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_child_process__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_body_parser__ = __webpack_require__("body-parser");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_cors__ = __webpack_require__("cors");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_cors___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_cors__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_fkill__ = __webpack_require__("fkill");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_fkill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_fkill__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_net__ = __webpack_require__("net");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_net___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_net__);
-
-
-
-
-
-
-
-var fs = __webpack_require__("fs");
-
+const express = __webpack_require__("express");
+const os = __webpack_require__("os");
+const { spawn, exec } = __webpack_require__("child_process");
+const bodyParser = __webpack_require__("body-parser");
+const cors = __webpack_require__("cors");
+const fkill = __webpack_require__("fkill");
+const net = __webpack_require__("net");
+const fs = __webpack_require__("fs");
+const { TelnetSocket } = __webpack_require__("telnet-stream");
+const loudness = __webpack_require__("loudness");
+const DEFAULT_AUDIO_INCREMENT = 10;
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'));
 console.log("\n----------------------------------------------------------------------");
 console.log(`Jarviz Receiver version: ${packageJSON.version}\n`);
-console.log(`Hostname: ${__WEBPACK_IMPORTED_MODULE_1_os___default.a.hostname()}\n`);
+console.log(`Hostname: ${os.hostname()}\n`);
 console.log("Network Interfaces:");
 
-var ifaces = __WEBPACK_IMPORTED_MODULE_1_os___default.a.networkInterfaces();
+var ifaces = os.networkInterfaces();
 
 var currentAppId;
 var currentScenarioId;
@@ -910,16 +897,87 @@ Object.keys(ifaces).forEach(function (ifname) {
 });
 console.log("----------------------------------------------------------------------\n");
 
-const app = __WEBPACK_IMPORTED_MODULE_0_express___default()();
-app.use(__WEBPACK_IMPORTED_MODULE_4_cors___default()());
-app.use(__WEBPACK_IMPORTED_MODULE_3_body_parser___default.a.json()); // to support JSON-encoded bodies
-app.use(__WEBPACK_IMPORTED_MODULE_3_body_parser___default.a.urlencoded({ // to support URL-encoded bodies
+const app = express();
+app.use(cors());
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 	extended: true
 }));
 
 let child = null;
 
-//process.on('unhandledRejection', r => console.log(r))
+process.on('unhandledRejection', r => console.error(r));
+
+getVolume = (req, res) => {
+	return loudness.getVolume().then(volume => {
+		res.send(JSON.stringify({ result: { volume } }));
+		return volume;
+	}).catch(error => {
+		res.send(JSON.stringify({ error }));
+		return error;
+	});
+};
+
+getMuted = (req, res) => {
+	return loudness.getMuted().then(muted => {
+		res.send(JSON.stringify({ result: { muted } }));
+		return muted;
+	}).catch(error => {
+		res.send(JSON.stringify({ error }));
+		return error;
+	});
+};
+
+setVolumeDelta = (req, res, direction = 1) => {
+	const increment = req.params.increment || DEFAULT_AUDIO_INCREMENT;
+	return loudness.getVolume().then(volume => {
+		return loudness.setVolume(newVolume).then(() => {
+			res.send(JSON.stringify({ result: { volume: newVolume } }));
+		});
+	}).catch(error => {
+		res.send(JSON.stringify({ error }));
+	});
+};
+app.get('/getVolume', getVolume);
+
+app.get('/getMuted', getMuted);
+
+app.get('/setVolume/:volume', async (req, res) => {
+	const { volume } = req.params;
+
+	loudness.setVolume(volume).then(() => {
+		console.log(`System audio volume set to ${volume}`);
+		res.send(JSON.stringify({ result: { volume } }));
+	}).catch(error => {
+		console.error(error);
+		res.send(JSON.stringify({ error }));
+	});
+});
+
+app.get('/increaseVolume/:increment?', (res, req) => setVolumeDelta(res, req, 1));
+app.get('/decreaseVolume/:increment?', (res, req) => setVolumeDelta(res, req, -1));
+
+app.get('/mute', async (req, res) => {
+	loudness.setMuted(true).then(() => {
+		console.log(`System audio volume muted`);
+	});
+});
+
+app.get('/unmute', async (req, res) => {
+	loudness.setMuted(false).then(() => {
+		console.log(`System audio volume unmuted`);
+	});
+});
+
+app.get('/toggleMute', async (req, res) => {
+	loudness.getMuted().then(muted => {
+		muted = !muted;
+		loudness.setMuted(muted).then(() => {
+			res.send(JSON.stringify({ result: { muted } }));
+			console.log(`System audio volume ${muted ? 'muted' : 'unmuted'}`);
+		});
+	});
+});
 
 app.post(`/telnet`, async (req, res) => {
 	console.log(`\n\n${new Date().toISOString()} NEW TELNET COMMAND ---------------------------`);
@@ -937,7 +995,7 @@ app.get('/ping', async (req, res) => {
 	console.log(`\n\n${new Date().toISOString()} PING REQUEST ---------------------------`);
 
 	let response = {
-		hostname: __WEBPACK_IMPORTED_MODULE_1_os___default.a.hostname()
+		hostname: os.hostname()
 	};
 
 	console.log("response", response);
@@ -947,7 +1005,7 @@ app.get('/ping', async (req, res) => {
 
 app.get('/poll', async (req, res) => {
 	let response = {
-		hostname: __WEBPACK_IMPORTED_MODULE_1_os___default.a.hostname()
+		hostname: os.hostname()
 	};
 });
 
@@ -969,37 +1027,37 @@ async function spawnChild({ id, command, cwd, args }, res) {
 		args = null;
 	}
 
-	child = Object(__WEBPACK_IMPORTED_MODULE_2_child_process__["spawn"])(command, args, {
+	child = spawn(command, args, {
 		cwd
 	});
 
 	child.stdout.on('data', function (data) {
-		//console.log('stdout: ' + data);
+		//console.log('stdout: ' + data)
 	});
 	child.stderr.on('data', function (data) {
-		//console.log('stdout: ' + data);
+		//console.log('stdout: ' + data)
 	});
 	child.on('close', function (code) {
-		//console.log(`Child ${child.spawnfile} PID: ${child.pid} closed with code: ${code}`);
+		//console.log(`Child ${child.spawnfile} PID: ${child.pid} closed with code: ${code}`)
 	});
 	child.on('error', err => {
 		if (err) console.log(err);
 		errors.push(err);
 	});
 
-	/*let executeCommand = `"${cwd}${command}" ${args}`;
- console.log("executeCommand", executeCommand);
+	/*let executeCommand = `"${cwd}${command}" ${args}`
+ console.log("executeCommand", executeCommand)
  
  child = exec(executeCommand, (error, stdout, stderr) => {
  	 if (error) {
- 		  console.error(`exec error: ${error}`);
- 		  errors.push(error);
+ 		  console.error(`exec error: ${error}`)
+ 		  errors.push(error)
  	 } else {
- 		  results.push(stdout);
- 		  errors.push(stderr);
+ 		  results.push(stdout)
+ 		  errors.push(stderr)
  	 }
- });
- 	console.log("child", child);*/
+ })
+ 	console.log("child", child)*/
 
 	if (child) {
 		child.processName = command;
@@ -1033,13 +1091,13 @@ async function killProcess() {
 		console.log("killing");
 		console.log("child.pid", child.pid);
 
-		await __WEBPACK_IMPORTED_MODULE_5_fkill___default()(child.pid, { force: true }).then(() => {
+		await fkill(child.pid, { force: true }).then(() => {
 			results.push(`process with PID: ${child.pid} successfully terminated`);
 		}).catch(err => {
 			console.log(`\nCant kill process by PID: ${child.pid}, attempting to kill by name: ${child.processName || child.spawnfile}`);
-			//if (err) console.error(err);
+			//if (err) console.error(err)
 
-			__WEBPACK_IMPORTED_MODULE_5_fkill___default()(child.processName || child.spawnfile, { force: true }).then(() => {
+			fkill(child.processName || child.spawnfile, { force: true }).then(() => {
 				results.push(`process with name: ${child.spawnfile} successfully terminated`);
 			}).catch(err => {
 				if (child && child.pid) {
@@ -1061,6 +1119,7 @@ async function killProcess() {
 	return { results, errors };
 }
 
+var telnetQueues = {};
 var telnetBusy = false;
 var telnetQueue = [];
 
@@ -1070,7 +1129,7 @@ function popTelnetQueue() {
 	}
 }
 
-async function sendTelnetCommand({ cmd, host, port, username, retries = 0, deferred = new Deferred() }) {
+async function sendTelnetCommand({ cmd, host, port = 23, username, retries = 0, deferred = new Deferred() }) {
 	console.log("telnetBusy", telnetBusy);
 	if (telnetBusy) {
 		// if telnet is busy the command plus a deferred promise for returning the result to the calling function is pushed to a queue
@@ -1085,7 +1144,7 @@ async function sendTelnetCommand({ cmd, host, port, username, retries = 0, defer
 
 	telnetBusy = true;
 
-	var socket = __WEBPACK_IMPORTED_MODULE_6_net___default.a.connect(port, host, function () {
+	var socket = net.connect(port, host, function () {
 		console.log("Sending data");
 		//socket.write("hello\r\n")
 		console.log("Telnet connection ready");
@@ -1093,11 +1152,12 @@ async function sendTelnetCommand({ cmd, host, port, username, retries = 0, defer
 		let onDataCount = 0;
 
 		socket.on("data", function (data) {
+			let str = data.toString();
+
 			onDataCount++;
 			console.log("\nreceived data");
-			console.log(data);
 
-			console.log(data.toString());
+			console.log('data', data.toString());
 			console.log("onDataCount", onDataCount);
 
 			switch (onDataCount) {
@@ -1148,7 +1208,7 @@ class Deferred {
 	}
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (app);
+module.exports = app;
 
 /***/ }),
 
@@ -1210,6 +1270,13 @@ module.exports = require("http");
 
 /***/ }),
 
+/***/ "loudness":
+/***/ (function(module, exports) {
+
+module.exports = require("loudness");
+
+/***/ }),
+
 /***/ "net":
 /***/ (function(module, exports) {
 
@@ -1221,6 +1288,13 @@ module.exports = require("net");
 /***/ (function(module, exports) {
 
 module.exports = require("os");
+
+/***/ }),
+
+/***/ "telnet-stream":
+/***/ (function(module, exports) {
+
+module.exports = require("telnet-stream");
 
 /***/ })
 
