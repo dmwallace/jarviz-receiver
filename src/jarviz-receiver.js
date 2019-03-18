@@ -1,12 +1,11 @@
 const express = require('express')
 const os = require('os')
-const {spawn, exec} = require('child_process')
+const {spawn} = require('child_process')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const fkill = require('fkill')
 const net = require('net')
 const fs = require('fs')
-const {TelnetSocket} = require("telnet-stream")
 const loudness = require('loudness')
 const DEFAULT_AUDIO_INCREMENT = 10
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'))

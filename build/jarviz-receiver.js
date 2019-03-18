@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2300e5f287e16284250e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "984f12b2ba923f13563c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -856,13 +856,12 @@ if (true) {
 
 const express = __webpack_require__("express");
 const os = __webpack_require__("os");
-const { spawn, exec } = __webpack_require__("child_process");
+const { spawn } = __webpack_require__("child_process");
 const bodyParser = __webpack_require__("body-parser");
 const cors = __webpack_require__("cors");
 const fkill = __webpack_require__("fkill");
 const net = __webpack_require__("net");
 const fs = __webpack_require__("fs");
-const { TelnetSocket } = __webpack_require__("telnet-stream");
 const loudness = __webpack_require__("loudness");
 const DEFAULT_AUDIO_INCREMENT = 10;
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'));
@@ -1288,13 +1287,6 @@ module.exports = require("net");
 /***/ (function(module, exports) {
 
 module.exports = require("os");
-
-/***/ }),
-
-/***/ "telnet-stream":
-/***/ (function(module, exports) {
-
-module.exports = require("telnet-stream");
 
 /***/ })
 
