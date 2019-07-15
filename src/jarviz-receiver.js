@@ -1,13 +1,17 @@
 const express = require('express')
 const os = require('os')
-const {spawn} = require('child_process')
+const {spawn, exec} = require('child_process')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const fkill = require('fkill')
 const net = require('net')
 const fs = require('fs')
 const loudness = require('loudness')
+const robot = require("robotjs");
+
 const DEFAULT_AUDIO_INCREMENT = 10
+
+
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'))
 console.log("\n----------------------------------------------------------------------")
 console.log(`Jarviz Receiver version: ${packageJSON.version}\n`)
@@ -161,16 +165,46 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({results, errors}))
 })
 
+
 async function spawnChild({id, command, cwd, args}, res) {
 	let {results, errors} = await killProcess()
 	
+	/*
+	var child2 = spawn(
+		'explorer.exe',
+		['shell:::{3080F90D-D7AD-11D9-BD98-0000947B0257}'],
+	)*/
+	
+	/*var child2 = spawn('cmd.exe', ['/c', 'c:\\jarviz-receiver\\showdesktop.bat'])
+	console.log("child", child);
+	*/
 	
 	console.log("spawning")
 	if (args && args.length > 0) {
 		args = args.split(' ')
-	} else {
-		args = null
 	}
+	
+	if(!Array.isArray(args)) {
+		args = []
+	}
+	
+	
+	const screenSize = robot.getScreenSize()
+	robot.moveMouse(screenSize.width - 1, screenSize.height - 1)
+	// pause briefly before spawning
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true)
+		}, 100)
+	})
+	robot.mouseClick()
+	
+	// pause briefly before spawning
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true)
+		}, 100)
+	})
 	
 	child = spawn(
 		command,
@@ -179,7 +213,6 @@ async function spawnChild({id, command, cwd, args}, res) {
 			cwd,
 		},
 	)
-	
 	
 	child.stdout.on('data', function (data) {
 		//console.log('stdout: ' + data)

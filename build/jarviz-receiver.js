@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "984f12b2ba923f13563c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d4e89ec992c6f9b7bfad"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -824,29 +824,23 @@ if(true) {
 /***/ }),
 
 /***/ "./src/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_http__ = __webpack_require__("http");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_http___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_http__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__ = __webpack_require__("./src/jarviz-receiver.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__);
+const http = __webpack_require__("http");
+const app = __webpack_require__("./src/jarviz-receiver.js");
 
-
-
-const server = __WEBPACK_IMPORTED_MODULE_0_http___default.a.createServer(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a);
-let currentApp = __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a;
+const server = http.createServer(app);
+let currentApp = app;
 const port = 5000;
 server.listen(port);
 console.log(`Listening on port ${port}`);
 
 if (true) {
-    module.hot.accept("./src/jarviz-receiver.js", function(__WEBPACK_OUTDATED_DEPENDENCIES__) { /* harmony import */ __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__ = __webpack_require__("./src/jarviz-receiver.js"); /* harmony import */ __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jarviz_receiver__); (() => {
-        server.removeListener('request', currentApp);
-        server.on('request', __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a);
-        currentApp = __WEBPACK_IMPORTED_MODULE_1__jarviz_receiver___default.a;
-    })(__WEBPACK_OUTDATED_DEPENDENCIES__); });
+	module.hot.accept("./src/jarviz-receiver.js", () => {
+		server.removeListener('request', currentApp);
+		server.on('request', app);
+		currentApp = app;
+	});
 }
 
 /***/ }),
@@ -856,14 +850,17 @@ if (true) {
 
 const express = __webpack_require__("express");
 const os = __webpack_require__("os");
-const { spawn } = __webpack_require__("child_process");
+const { spawn, exec } = __webpack_require__("child_process");
 const bodyParser = __webpack_require__("body-parser");
 const cors = __webpack_require__("cors");
 const fkill = __webpack_require__("fkill");
 const net = __webpack_require__("net");
 const fs = __webpack_require__("fs");
 const loudness = __webpack_require__("loudness");
+const robot = __webpack_require__("robotjs");
+
 const DEFAULT_AUDIO_INCREMENT = 10;
+
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'));
 console.log("\n----------------------------------------------------------------------");
 console.log(`Jarviz Receiver version: ${packageJSON.version}\n`);
@@ -1019,12 +1016,41 @@ app.post('/kill', async (req, res) => {
 async function spawnChild({ id, command, cwd, args }, res) {
 	let { results, errors } = await killProcess();
 
+	/*
+ var child2 = spawn(
+ 	'explorer.exe',
+ 	['shell:::{3080F90D-D7AD-11D9-BD98-0000947B0257}'],
+ )*/
+
+	/*var child2 = spawn('cmd.exe', ['/c', 'c:\\jarviz-receiver\\showdesktop.bat'])
+ console.log("child", child);
+ */
+
 	console.log("spawning");
 	if (args && args.length > 0) {
 		args = args.split(' ');
-	} else {
-		args = null;
 	}
+
+	if (!Array.isArray(args)) {
+		args = [];
+	}
+
+	const screenSize = robot.getScreenSize();
+	robot.moveMouse(screenSize.width - 1, screenSize.height - 1);
+	// pause briefly before spawning
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true);
+		}, 100);
+	});
+	robot.mouseClick();
+
+	// pause briefly before spawning
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true);
+		}, 100);
+	});
 
 	child = spawn(command, args, {
 		cwd
@@ -1287,6 +1313,13 @@ module.exports = require("net");
 /***/ (function(module, exports) {
 
 module.exports = require("os");
+
+/***/ }),
+
+/***/ "robotjs":
+/***/ (function(module, exports) {
+
+module.exports = require("robotjs");
 
 /***/ })
 

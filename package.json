@@ -22,8 +22,9 @@
     "cors": "^2.8.4",
     "express": "^4.16.4",
     "fkill": "^5.1.0",
-    "install": "^0.12.2",
-    "loudness": "git+https://github.com/LinusU/node-loudness.git"
+    "forcefocus": "^1.0.0",
+    "loudness": "git+https://github.com/LinusU/node-loudness.git",
+    "robotjs": "^0.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
