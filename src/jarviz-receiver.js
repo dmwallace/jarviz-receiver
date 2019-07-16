@@ -250,13 +250,14 @@ async function killProcess() {
 			console.log(`\nCant kill process by PID: ${child.pid}, attempting to kill by name: ${child.processName || child.spawnfile}`)
 			//if (err) console.error(err)
 			
-			fkill(child.processName || child.spawnfile, {force: true}).then(() => {
+			return fkill(child.processName || child.spawnfile, {force: true}).then(() => {
 				results.push(`process with name: ${child.spawnfile} successfully terminated`)
 			}).catch((err) => {
 				if (child && child.pid) { // swallow some errors related to nonexistant processes so long as child has been killed
 					if (err) console.error(err)
 					errors.push(`could not kill process with PID: ${child.pid} \n${JSON.stringify(err)}`)
 				}
+				
 			})
 		})
 		

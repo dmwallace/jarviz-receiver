@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "984f12b2ba923f13563c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ca6d06224ef6ccb57de1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1096,7 +1096,7 @@ async function killProcess() {
 			console.log(`\nCant kill process by PID: ${child.pid}, attempting to kill by name: ${child.processName || child.spawnfile}`);
 			//if (err) console.error(err)
 
-			fkill(child.processName || child.spawnfile, { force: true }).then(() => {
+			return fkill(child.processName || child.spawnfile, { force: true }).then(() => {
 				results.push(`process with name: ${child.spawnfile} successfully terminated`);
 			}).catch(err => {
 				if (child && child.pid) {
