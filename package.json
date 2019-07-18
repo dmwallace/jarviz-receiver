@@ -17,7 +17,7 @@
     "start": "node build/jarviz-receiver.js",
     "reinstall": "rm -rf node_modules && npm install",
     "install-production": "rm -rf node_modules && npm install --only=prod",
-    "postinstall": "npm run preuninstall && npx winser -i -s -a",
+    "postinstall": "npx winser -i -s -a",
     "preuninstall": "npx winser -r -x -s"
   },
   "keywords": [],
