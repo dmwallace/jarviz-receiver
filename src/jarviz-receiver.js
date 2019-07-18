@@ -7,7 +7,7 @@ const fkill = require('fkill')
 const net = require('net')
 const fs = require('fs')
 const loudness = require('loudness')
-//const robot = require("robotjs");
+const robot = require("robotjs");
 const ffi = require('ffi')
 const hide = require('node-hide');
 const DEFAULT_AUDIO_INCREMENT = 10
@@ -232,6 +232,8 @@ async function setForegroundWindow(name) {
 async function spawnChild({id, command, cwd, args}, res) {
 	let {results, errors} = await killProcess()
 	
+	robot.keyTap('d','command')
+	
 	/*
 	var child2 = spawn(
 		'explorer.exe',
@@ -292,11 +294,11 @@ async function spawnChild({id, command, cwd, args}, res) {
 	console.log("child", child)*/
 	
 	if (child) {
-		hide.visableWindows(function (data) {
+		/*hide.visableWindows(function (data) {
 			console.log(JSON.stringify(data)) //List all the Visable Windows
 			console.log("Object.keys(data)", Object.keys(data));
 			
-			hide.hideWindow(Object.keys(data));
+			hide.minimizeWindow(Object.keys(data));
 		});
 		
 		await wait(5000)
@@ -304,7 +306,9 @@ async function spawnChild({id, command, cwd, args}, res) {
 		
 		
 		
-		setForegroundWindow('Chrome')
+		setForegroundWindow('Chrome')*/
+		
+		
 		
 		child.processName = command
 		results.push(`spawned process ${child.spawnfile} with PID: ${child.pid}`)
