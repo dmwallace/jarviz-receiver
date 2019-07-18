@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d4e89ec992c6f9b7bfad"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "06c1338e9bb0c2582285"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -857,8 +857,9 @@ const fkill = __webpack_require__("fkill");
 const net = __webpack_require__("net");
 const fs = __webpack_require__("fs");
 const loudness = __webpack_require__("loudness");
-const robot = __webpack_require__("robotjs");
-
+//const robot = require("robotjs");
+const ffi = __webpack_require__("ffi");
+const hide = __webpack_require__("node-hide");
 const DEFAULT_AUDIO_INCREMENT = 10;
 
 let packageJSON = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'));
@@ -1013,6 +1014,69 @@ app.post('/kill', async (req, res) => {
 	res.send(JSON.stringify({ results, errors }));
 });
 
+async function wait(ms = 0) {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true);
+		}, ms);
+	});
+}
+
+async function doRobot() {
+	const screenSize = robot.getScreenSize();
+	robot.moveMouse(screenSize.width - 1, screenSize.height - 1);
+	// pause briefly before spawning
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true);
+		}, 100);
+	});
+	robot.mouseClick();
+
+	// pause briefly before spawning
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(true);
+		}, 100);
+	});
+}
+
+async function setForegroundWindow(name) {
+	var user32 = new ffi.Library('user32', {
+		'GetTopWindow': ['long', ['long']],
+		'FindWindowA': ['long', ['string', 'string']],
+		'SetActiveWindow': ['long', ['long']],
+		'SetForegroundWindow': ['bool', ['long']],
+		'BringWindowToTop': ['bool', ['long']],
+		'ShowWindow': ['bool', ['long', 'int']],
+		'SwitchToThisWindow': ['void', ['long', 'bool']],
+		'GetForegroundWindow': ['long', []],
+		'AttachThreadInput': ['bool', ['int', 'long', 'bool']],
+		'GetWindowThreadProcessId': ['int', ['long', 'int']],
+		'SetWindowPos': ['bool', ['long', 'long', 'int', 'int', 'int', 'int', 'uint']],
+		'SetFocus': ['long', ['long']]
+	});
+
+	var kernel32 = new ffi.Library('Kernel32.dll', {
+		'GetCurrentThreadId': ['int', []]
+	});
+
+	var winToSetOnTop = user32.FindWindowA(null, name);
+	console.log("winToSetOnTop", winToSetOnTop);
+
+	var foregroundHWnd = user32.GetForegroundWindow();
+	var currentThreadId = kernel32.GetCurrentThreadId();
+	var windowThreadProcessId = user32.GetWindowThreadProcessId(foregroundHWnd, null);
+	var showWindow = user32.ShowWindow(winToSetOnTop, 9);
+	var setWindowPos1 = user32.SetWindowPos(winToSetOnTop, -1, 0, 0, 0, 0, 3);
+	var setWindowPos2 = user32.SetWindowPos(winToSetOnTop, -2, 0, 0, 0, 0, 3);
+	var setForegroundWindow = user32.SetForegroundWindow(winToSetOnTop);
+	var attachThreadInput = user32.AttachThreadInput(windowThreadProcessId, currentThreadId, 0);
+	var setFocus = user32.SetFocus(winToSetOnTop);
+	var setActiveWindow = user32.SetActiveWindow(winToSetOnTop);
+	console.log("setActiveWindow", setActiveWindow);
+}
+
 async function spawnChild({ id, command, cwd, args }, res) {
 	let { results, errors } = await killProcess();
 
@@ -1035,22 +1099,7 @@ async function spawnChild({ id, command, cwd, args }, res) {
 		args = [];
 	}
 
-	const screenSize = robot.getScreenSize();
-	robot.moveMouse(screenSize.width - 1, screenSize.height - 1);
-	// pause briefly before spawning
-	await new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve(true);
-		}, 100);
-	});
-	robot.mouseClick();
-
-	// pause briefly before spawning
-	await new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve(true);
-		}, 100);
-	});
+	//await doRobot()
 
 	child = spawn(command, args, {
 		cwd
@@ -1085,6 +1134,17 @@ async function spawnChild({ id, command, cwd, args }, res) {
  	console.log("child", child)*/
 
 	if (child) {
+		hide.visableWindows(function (data) {
+			console.log(JSON.stringify(data)); //List all the Visable Windows
+			console.log("Object.keys(data)", Object.keys(data));
+
+			hide.hideWindow(Object.keys(data));
+		});
+
+		await wait(5000);
+
+		setForegroundWindow('Chrome');
+
 		child.processName = command;
 		results.push(`spawned process ${child.spawnfile} with PID: ${child.pid}`);
 		res.send(JSON.stringify({ results, errors }));
@@ -1122,7 +1182,7 @@ async function killProcess() {
 			console.log(`\nCant kill process by PID: ${child.pid}, attempting to kill by name: ${child.processName || child.spawnfile}`);
 			//if (err) console.error(err)
 
-			fkill(child.processName || child.spawnfile, { force: true }).then(() => {
+			return fkill(child.processName || child.spawnfile, { force: true }).then(() => {
 				results.push(`process with name: ${child.spawnfile} successfully terminated`);
 			}).catch(err => {
 				if (child && child.pid) {
@@ -1274,6 +1334,13 @@ module.exports = require("express");
 
 /***/ }),
 
+/***/ "ffi":
+/***/ (function(module, exports) {
+
+module.exports = require("ffi");
+
+/***/ }),
+
 /***/ "fkill":
 /***/ (function(module, exports) {
 
@@ -1309,17 +1376,17 @@ module.exports = require("net");
 
 /***/ }),
 
+/***/ "node-hide":
+/***/ (function(module, exports) {
+
+module.exports = require("node-hide");
+
+/***/ }),
+
 /***/ "os":
 /***/ (function(module, exports) {
 
 module.exports = require("os");
-
-/***/ }),
-
-/***/ "robotjs":
-/***/ (function(module, exports) {
-
-module.exports = require("robotjs");
 
 /***/ })
 
