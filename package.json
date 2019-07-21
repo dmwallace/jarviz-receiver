@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -18,7 +18,7 @@
     "start": "node build/jarviz-receiver.js",
     "reinstall": "rm -rf node_modules && npm install",
     "install-production": "rm -rf node_modules && npm install --only=prod",
-    "postinstall": "pm2 start ecosystem.config.js && pm2 save && pm2 install pm2-auto-pull && pm2 set pm2-auto-pull:interval 60000"
+    "postinstall": "pm2 start ecosystem.config.js && pm2 save && pm2 install pm2-auto-pull && pm2 set pm2-auto-pull:interval 60000 && npm install pm2-windows-startup -g pm2-startup install"
   },
   "keywords": [],
   "author": "",
