@@ -1,5 +1,5 @@
 var pmx = require('pmx');
-var pm2 = require('pm2');
+var pm2 = require('../node_modules/pm2');
 var async = require('async');
 //var pkg = require('./package.json');
 
@@ -14,12 +14,12 @@ function autoPull (cb) {
     if (err) return console.error(err);
     
     async.forEachLimit(procs, 1, function (proc, next) {
-      console.log("JSON.stringify(proc, null, 2)", JSON.stringify(proc, null, 2));
-  
+      
       if (proc.pm2_env && proc.pm2_env.versioning) {
-        
-        
-        /*pm2.pullAndReload(proc.name, function (err, meta) {
+  
+        console.log("JSON.stringify(proc.pm2_env.versioning, null, 2)", JSON.stringify(proc.pm2_env.versioning, null, 2));
+  
+        pm2.pullAndReload(proc.name, function (err, meta) {
   
           console.log("meta", meta);
           if (meta) {
@@ -31,7 +31,7 @@ function autoPull (cb) {
             console.error(err)
           console.log('App %s already at latest version', proc.name);
           return next();
-        });*/
+        });
       } else next();
     }, cb);
     
