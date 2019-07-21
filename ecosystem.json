@@ -1,0 +1,22 @@
+{
+  "apps" : [{
+    "name": "jarviz-receiver1",
+    "script": "./src/index.js",
+    "post_update": ["npm install", "echo launching the app"],
+    "instances": 1,
+    "autorestart": true,
+    "watch": false,
+    "max_memory_restart": "1G",
+    
+    "env": {
+      "NODE_ENV": "development",
+      "bla": "heyoo",
+      "versioning": {
+        "repo_path": "C:\\jarviz-receiver\\"
+      }
+    },
+    "env_production": {
+      "NODE_ENV": "production"
+    }
+  }]
+}
