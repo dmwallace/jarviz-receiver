@@ -11,14 +11,14 @@
   },
   "description": "",
   "main": "index.js",
+  "bin": "build/jarviz-receiver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "rm -rf build && webpack --config config/webpack.config.server.js",
     "start": "node build/jarviz-receiver.js",
     "reinstall": "rm -rf node_modules && npm install",
     "install-production": "rm -rf node_modules && npm install --only=prod",
-    "postinstall": "npx winser -i -s -a",
-    "preuninstall": "npx winser -r -x -s"
+    "postinstall": "pm2 start ecosystem.config.js && pm2 save && pm2 install pm2-auto-pull && pm2 set pm2-auto-pull:interval 60000"
   },
   "keywords": [],
   "author": "",
