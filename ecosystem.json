@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name": "jarviz-receiver1",
+    "name": "jarviz-receiver",
     "script": "./src/index.js",
     "post_update": ["npm install", "echo launching the app"],
     "instances": 1,
