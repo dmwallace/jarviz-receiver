@@ -1,5 +1,5 @@
 const { spawn } = require('child_process')
 
 setInterval(function() {
-  execSync('git', ['pull'], { windowsHide: true })
+  spawn('git', ['pull'], { windowsHide: true })
 }, 10000)
