@@ -28,7 +28,7 @@ function autoPull (cb) {
             
             console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
             
-            execSync('npm install')
+            execSync('npm', ['install'], { windowsHide: true})
             console.log('installed')
           }
           if (err) {
@@ -78,7 +78,7 @@ pmx.initModule({
       })
     }
     
-    setInterval(go, conf.interval || 60000);
+    setInterval(go, conf.interval || 6000);
     go()
   })
 })
