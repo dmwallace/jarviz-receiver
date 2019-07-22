@@ -2,6 +2,7 @@ var pmx = require('pmx');
 var pm2 = require('../node_modules/pm2');
 var async = require('async');
 //var pkg = require('./package.json');
+const { execSync } = require('child_process');
 
 var Probe = pmx.probe();
 
@@ -26,6 +27,8 @@ function autoPull (cb) {
             app_updated.inc();
             
             console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
+            
+            execSync('npm install')
           }
           if (err) {
             console.error(err)
