@@ -22,18 +22,18 @@ function autoPull (cb) {
         
         pm2.pullAndReload(proc.name, function (err, meta) {
           
-          console.log('meta', meta)
+          //console.log('meta', meta)
           if (meta) {
             app_updated.inc()
             
-            console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
+            //console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
             
-            execSync('npm', ['install'], { windowsHide: true})
+            execSync('npm', ['install'], { windowsHide: true, detached: true})
             console.log('installed')
           }
           if (err) {
-            console.error(err)
-            console.log('App %s already at latest version', proc.name)
+            //console.error(err)
+            //console.log('App %s already at latest version', proc.name)
           }
           
           return next()
