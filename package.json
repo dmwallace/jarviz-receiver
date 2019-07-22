@@ -21,6 +21,11 @@
     "install-production": "rm -rf node_modules && npm install --only=prod",
     "postinstall": "pm2 start ecosystem.json && pm2 save"
   },
+  "husky": {
+    "hooks": {
+      "post-merge": "npm install"
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -32,6 +37,7 @@
     "ffi": "^2.3.0",
     "fkill": "^5.1.0",
     "forcefocus": "^1.0.0",
+    "husky": "^3.0.1",
     "loudness": "git+https://github.com/LinusU/node-loudness.git",
     "node-hide": "^1.3.1",
     "pm2": "^3.5.1",
