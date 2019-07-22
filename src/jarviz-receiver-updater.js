@@ -16,9 +16,9 @@ function autoPull (cb) {
     
     async.forEachLimit(procs, 1, function (proc, next) {
       
-      if (proc.pm2_env && proc.pm2_env.versioning) {
+      if (proc.name === 'jarviz-receiver' && proc.pm2_env && proc.pm2_env.versioning) {
         
-        console.log('JSON.stringify(proc.pm2_env.versioning, null, 2)', JSON.stringify(proc.pm2_env.versioning, null, 2))
+        //console.log('JSON.stringify(proc.pm2_env.versioning, null, 2)', JSON.stringify(proc.pm2_env.versioning, null, 2))
         
         pm2.pullAndReload(proc.name, function (err, meta) {
           
@@ -30,9 +30,6 @@ function autoPull (cb) {
             
             execSync('npm install')
             console.log('installed')
-            execSync('pm2 list')
-            pm2.disconnect()
-            
           }
           if (err) {
             console.error(err)
@@ -83,8 +80,7 @@ pmx.initModule({
       })
     }
     
+    setInterval(go, conf.interval || 60000);
     go()
-    //setInterval(go, conf.interval || 30000);
-    
   })
 })
