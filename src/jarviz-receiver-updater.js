@@ -27,9 +27,11 @@ function autoPull (cb) {
             
             console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
           }
-          if (err)
+          if (err) {
             console.error(err)
-          console.log('App %s already at latest version', proc.name);
+            console.log('App %s already at latest version', proc.name);
+          }
+          
           return next();
         });
       } else next();
