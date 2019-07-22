@@ -15,25 +15,26 @@ function autoPull (cb) {
     if (err) return console.error(err)
     
     async.forEachLimit(procs, 1, function (proc, next) {
+      console.log('JSON.stringify(proc.pm2_env.versioning, null, 2)', JSON.stringify(proc.pm2_env.versioning, null, 2))
       
-      if (proc.name === 'jarviz-receiver' && proc.pm2_env && proc.pm2_env.versioning) {
+      if (proc.name === 'jarviz-receiverrr' && proc.pm2_env && proc.pm2_env.versioning) {
         
         //console.log('JSON.stringify(proc.pm2_env.versioning, null, 2)', JSON.stringify(proc.pm2_env.versioning, null, 2))
         
         pm2.pullAndReload(proc.name, function (err, meta) {
           
-          //console.log('meta', meta)
+          console.log('meta', meta)
           if (meta) {
             app_updated.inc()
             
-            //console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
+            console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
             
-            execSync('npm', ['install'], { windowsHide: true, detached: true})
+            execSync('npm', ['install'], { windowsHide: true})
             console.log('installed')
           }
           if (err) {
-            //console.error(err)
-            //console.log('App %s already at latest version', proc.name)
+            console.error(err)
+            console.log('App %s already at latest version', proc.name)
           }
           
           return next()
