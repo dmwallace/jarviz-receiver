@@ -2,7 +2,7 @@ var pmx = require('pmx')
 var pm2 = require('../node_modules/pm2')
 var async = require('async')
 //var pkg = require('./package.json');
-const { spawn } = require('child_process')
+const { execSync } = require('child_process')
 
 var Probe = pmx.probe()
 
@@ -28,21 +28,10 @@ function autoPull (cb) {
             
             console.log('>>>>>>>>>>>>> Successfully pulled Application! [App name: %s]', proc.name)
             
-            const cp = spawn('npm install')
-            cp.stdout.on('data', (data) => {
-              console.log(`stdout: ${data}`);
-            });
-  
-            cp.stderr.on('data', (data) => {
-              console.log(`stderr: ${data}`);
-            });
-  
-            cp.on('close', (code) => {
-              console.log(`child process exited with code ${code}`);
-              console.log('installed')
-              pm2.disconnect()
-            });
-            
+            execSync('npm install')
+            console.log('installed')
+            execSync('pm2 list')
+            pm2.disconnect()
             
           }
           if (err) {
