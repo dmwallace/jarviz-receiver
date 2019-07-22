@@ -67,8 +67,6 @@ pmx.initModule({
   },
 }, function (err, conf) {
   pm2.connect(function () {
-    console.log('pm2-auto-pull module connected to pm2')
-    
     var running = false
     
     const go = function () {
