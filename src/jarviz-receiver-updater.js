@@ -1,6 +1,14 @@
 const { spawn } = require('child_process')
 
+let isUpdating = false
+
 setInterval(function() {
+  if(isUpdating) {
+    console.log("already updatig");
+    return
+  }
+  
+  isUpdating = true
   const cp = spawn('git', ['pull'], { windowsHide: true })
   cp.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -12,5 +20,6 @@ setInterval(function() {
   
   cp.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
+    isUpdating = false
   });
 }, 10000)
