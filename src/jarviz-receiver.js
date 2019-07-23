@@ -231,7 +231,7 @@ async function setForegroundWindow (name) {
 async function spawnChild ({ id, command, cwd, args }, res) {
   let { results, errors } = await killProcess()
   
-  robot.keyTap('d', 'command')
+  //robot.keyTap('d', 'command')
   
   /*
   var child2 = spawn(
@@ -255,8 +255,8 @@ async function spawnChild ({ id, command, cwd, args }, res) {
   //await doRobot()
   
   child = spawn(
-    command,
-    args,
+    'chrome.exe',
+    ['news.com.au'],
     {
       cwd,
       windowsHide: true,
@@ -365,16 +365,21 @@ async function killProcess () {
       
       taskkill.stdout.on('data', function (data) {
         console.log('stdout: ' + data)
+        if(data.substr(0, 'ERROR'.length === 'ERROR')) {
+          errors.push(data)
+        } else {
+          results.push(data)
+  
+        }
       })
       taskkill.stderr.on('data', function (data) {
         console.log('stdout: ' + data)
       })
       taskkill.on('close', function (code) {
-        results.push(`Child ${child.spawnfile} PID: ${child.pid} closed with code: ${code}`)
         
         console.log('\nRESULTS:', JSON.stringify(results, null, 2))
         console.log('ERRORS:', JSON.stringify(errors, null, 2))
-        child = null
+        //child = null
         
         resolve({ results, errors })
       })
