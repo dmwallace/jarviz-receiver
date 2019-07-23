@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.37",
+  "version": "2.0.38",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -19,7 +19,9 @@
     "start": "node build/jarviz-receiver.js",
     "reinstall": "rm -rf node_modules && npm install",
     "install-production": "rm -rf node_modules && npm install --only=prod",
-    "postinstall": "pm2 start ecosystem.json && pm2 save"
+    "postinstall": "pm2 start ecosystem.json && pm2 save",
+    "commit": "npm version patch --force -m '%s'",
+    "postversion": "ssh-add -A && git push && git push --tags"
   },
   "husky": {
     "hooks": {
@@ -49,6 +51,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.7.0",
     "start-server-webpack-plugin": "^2.2.0",
+    "version": "^0.1.2",
     "webpack": "^3.5.5",
     "webpack-node-externals": "^1.6.0"
   }
