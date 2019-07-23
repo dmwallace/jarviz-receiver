@@ -265,8 +265,8 @@ async function spawnChild ({ id, command, cwd, args }, res) {
   //await doRobot()
   
   let child = spawn(
-    'chrome.exe',
-    ['news.com.au'],
+    cmd,//'chrome.exe',
+    args, //['news.com.au'],
     {
       cwd,
       windowsHide: true,
@@ -352,18 +352,10 @@ async function killProcess () {
     return Promise.resolve({ results, errors })
   }
   //isBusy = true
-  
-  console.log('Object.keys(children)', Object.keys(children))
-  console.log('Object.entries(children)', Object.entries(children))
-  
   await Promise.all(Object.entries(children).map(([pid, child]) => {
-    console.log('pid', pid)
-    console.log('child', child)
-    
     return new Promise((resolve) => {
       if (child && child.pid) {
-        console.log('killing')
-        console.log('child.pid', child.pid)
+        console.log(`killing ${child.spawnfile} with PID: ${child.pid}`)
         
         /*await fkill(child.pid, {force: true}).then(() => {
           results.push(`process with PID: ${child.pid} successfully terminated`)
