@@ -1,4 +1,4 @@
-const { spawn } = require('child_process')
+const { spawnSync } = require('child_process')
 
 let isUpdating = false
 
@@ -9,7 +9,7 @@ setInterval(function() {
   }
   
   isUpdating = true
-  const cp = spawn('git reset --hard && git pull', { windowsHide: true })
+  const cp = spawnSync('git pull', { windowsHide: true })
   cp.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
