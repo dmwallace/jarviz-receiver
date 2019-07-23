@@ -273,7 +273,7 @@ async function spawnChild ({ id, command, cwd, args }, res) {
     },
   )
   
-  children[child.pid] = children
+  children[child.pid] = child
   
   child.stdout.on('data', function (data) {
     //console.log('stdout: ' + data)
