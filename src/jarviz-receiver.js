@@ -53,7 +53,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true,
 }))
 
-let child = null
+//let child = null
+let children = {}
 
 process.on('unhandledRejection', r => console.error(r))
 
@@ -264,7 +265,7 @@ async function spawnChild ({ id, command, cwd, args }, res) {
   
   //await doRobot()
   
-  child = spawn(
+  let child = spawn(
     'chrome.exe',
     ['news.com.au'],
     {
@@ -272,6 +273,8 @@ async function spawnChild ({ id, command, cwd, args }, res) {
       windowsHide: true,
     },
   )
+  
+  children[child.pid] = children
   
   child.stdout.on('data', function (data) {
     //console.log('stdout: ' + data)
@@ -349,72 +352,75 @@ async function killProcess () {
     errors.push(`busy`)
     return Promise.resolve({results, errors})
   }
-  isBusy = true
+  //isBusy = true
   
-  return new Promise((resolve) => {
-    if (child && child.pid) {
-      console.log('killing')
-      console.log('child.pid', child.pid)
+  await Promise.all(Object.values(children.map(([pid, child])=>{
+    return new Promise((resolve) => {
+      if (child && child.pid) {
+        console.log('killing')
+        console.log('child.pid', child.pid)
       
-      /*await fkill(child.pid, {force: true}).then(() => {
-        results.push(`process with PID: ${child.pid} successfully terminated`)
-      }).catch((err) => {
-        console.log(`\nCant kill process by PID: ${child.pid}, attempting to kill by name: ${child.processName || child.spawnfile}`)
-        //if (err) console.error(err)
-        
-        return fkill(child.processName || child.spawnfile, {force: true}).then(() => {
-          results.push(`process with name: ${child.spawnfile} successfully terminated`)
+        /*await fkill(child.pid, {force: true}).then(() => {
+          results.push(`process with PID: ${child.pid} successfully terminated`)
         }).catch((err) => {
-          if (child && child.pid) { // swallow some errors related to nonexistant processes so long as child has been killed
-            if (err) console.error(err)
-            errors.push(`could not kill process with PID: ${child.pid} \n${JSON.stringify(err)}`)
+          console.log(`\nCant kill process by PID: ${child.pid}, attempting to kill by name: ${child.processName || child.spawnfile}`)
+          //if (err) console.error(err)
+          
+          return fkill(child.processName || child.spawnfile, {force: true}).then(() => {
+            results.push(`process with name: ${child.spawnfile} successfully terminated`)
+          }).catch((err) => {
+            if (child && child.pid) { // swallow some errors related to nonexistant processes so long as child has been killed
+              if (err) console.error(err)
+              errors.push(`could not kill process with PID: ${child.pid} \n${JSON.stringify(err)}`)
+            }
+          })
+        })*/
+      
+        let taskkill = spawn(
+          'taskkill',
+          ['/pid', child.pid],
+          {
+            windowsHide: true,
+          },
+        )
+      
+        taskkill.stdout.on('data', function (data) {
+          let str = data.toString()
+        
+          console.log('stdout: ' + str)
+        
+          if (str.substr(0, 'ERROR'.length === 'ERROR')) {
+            errors.push(str)
+          } else {
+            results.push(str)
+            delete children[pid]
           }
+        
         })
-      })*/
-      
-      let taskkill = spawn(
-        'taskkill',
-        ['/pid', child.pid],
-        {
-          windowsHide: true,
-        },
-      )
-      
-      taskkill.stdout.on('data', function (data) {
-        let str = data.toString()
+        taskkill.stderr.on('data', function (data) {
+          console.log('stdout: ' + data)
+        })
+        taskkill.on('close', function (code) {
         
-        console.log('stdout: ' + str)
+          console.log('\nRESULTS:', JSON.stringify(results, null, 2))
+          console.log('ERRORS:', JSON.stringify(errors, null, 2))
+          //child = null
         
-        if (str.substr(0, 'ERROR'.length === 'ERROR')) {
-          errors.push(str)
-        } else {
-          results.push(str)
-          child = null
-        }
-        
-      })
-      taskkill.stderr.on('data', function (data) {
-        console.log('stdout: ' + data)
-      })
-      taskkill.on('close', function (code) {
-        
-        console.log('\nRESULTS:', JSON.stringify(results, null, 2))
-        console.log('ERRORS:', JSON.stringify(errors, null, 2))
-        //child = null
-        
+          isBusy = false
+          resolve({ results, errors })
+        })
+        taskkill.on('error', (err) => {
+          if (err) console.log(err)
+          errors.push(err)
+        })
+      } else {
         isBusy = false
         resolve({ results, errors })
-      })
-      taskkill.on('error', (err) => {
-        if (err) console.log(err)
-        errors.push(err)
-      })
-    } else {
-      isBusy = false
-      resolve({ results, errors })
-    }
-  })
+      }
+    })
+  })))
   
+  return {results, errors}
 }
 
 var telnetQueues = {}
