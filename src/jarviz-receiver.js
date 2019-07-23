@@ -357,7 +357,7 @@ async function killProcess () {
       
       let taskkill = spawn(
         'taskkill',
-        ['pid', child.pid],
+        ['/pid', child.pid],
         {
           windowsHide: true,
         },
