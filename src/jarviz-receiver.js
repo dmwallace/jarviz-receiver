@@ -234,13 +234,12 @@ async function setForegroundWindow (name) {
 async function spawnChild ({ id, command, cwd, args }, res) {
   let { results, errors } = await killProcess()
   
-  if (errors.find((err)=> err === 'busy')) {
+  if (errors.find((err) => err === 'busy')) {
     res.send(JSON.stringify({ results, errors }))
     console.log('\nRESULTS:', JSON.stringify(results, null, 3))
     console.log('ERRORS:', JSON.stringify(errors, null, 3))
     return
   }
-  
   
   //robot.keyTap('d', 'command')
   
@@ -350,16 +349,16 @@ async function killProcess () {
   
   if (isBusy) {
     errors.push(`busy`)
-    return Promise.resolve({results, errors})
+    return Promise.resolve({ results, errors })
   }
   //isBusy = true
   
-  await Promise.all(Object.values(children.map(([pid, child])=>{
+  await Promise.all(Object.values(children).map(([pid, child]) => {
     return new Promise((resolve) => {
       if (child && child.pid) {
         console.log('killing')
         console.log('child.pid', child.pid)
-      
+        
         /*await fkill(child.pid, {force: true}).then(() => {
           results.push(`process with PID: ${child.pid} successfully terminated`)
         }).catch((err) => {
@@ -375,7 +374,7 @@ async function killProcess () {
             }
           })
         })*/
-      
+        
         let taskkill = spawn(
           'taskkill',
           ['/pid', child.pid],
@@ -383,29 +382,29 @@ async function killProcess () {
             windowsHide: true,
           },
         )
-      
+        
         taskkill.stdout.on('data', function (data) {
           let str = data.toString()
-        
+          
           console.log('stdout: ' + str)
-        
+          
           if (str.substr(0, 'ERROR'.length === 'ERROR')) {
             errors.push(str)
           } else {
             results.push(str)
             delete children[pid]
           }
-        
+          
         })
         taskkill.stderr.on('data', function (data) {
           console.log('stdout: ' + data)
         })
         taskkill.on('close', function (code) {
-        
+          
           console.log('\nRESULTS:', JSON.stringify(results, null, 2))
           console.log('ERRORS:', JSON.stringify(errors, null, 2))
           //child = null
-        
+          
           isBusy = false
           resolve({ results, errors })
         })
@@ -418,9 +417,9 @@ async function killProcess () {
         resolve({ results, errors })
       }
     })
-  })))
+  }))
   
-  return {results, errors}
+  return { results, errors }
 }
 
 var telnetQueues = {}
