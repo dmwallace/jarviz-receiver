@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.60",
+  "version": "2.0.61",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -21,11 +21,12 @@
     "install-production": "rm -rf node_modules && npm install --only=prod",
     "postinstall": "pm2 startOrGracefulReload ecosystem.json && pm2 save",
     "commit": "git add -A && git status && npm version patch --force -m '%s'",
-    "postversion": "ssh-add -A && git push && git push --tags"
+    "postversion": "ssh-add -A && git push && git push --tags",
+    "autorun": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"c:\\jarviz-receiver\\start.bat\" /F"
   },
   "husky": {
     "hooks": {
-      "post-merge": "npm install"
+      "post-merge": "npm install && npm audit fix && npm run autorun"
     }
   },
   "keywords": [],
