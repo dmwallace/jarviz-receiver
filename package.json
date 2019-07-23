@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.67",
+  "version": "2.0.68",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -28,7 +28,7 @@
   },
   "husky": {
     "hooks": {
-      "post-merge": "npm installcd cd"
+      "post-merge": "npm install"
     }
   },
   "keywords": [],
