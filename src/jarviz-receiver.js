@@ -368,7 +368,7 @@ async function killProcess () {
         
         console.log('stdout: ' + str)
         
-        if (str.toString().substr(0, 'ERROR'.length === 'ERROR')) {
+        if (str.substr(0, 'ERROR'.length === 'ERROR')) {
           errors.push(str)
         } else {
           results.push(str)
