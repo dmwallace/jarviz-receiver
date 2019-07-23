@@ -354,7 +354,7 @@ async function killProcess () {
   //isBusy = true
   
   console.log('Object.keys(children)', Object.keys(children))
-  console.log('Object.entries', Object.entries)
+  console.log('Object.entries(children)', Object.entries(children))
   
   await Promise.all(Object.entries(children).map(([pid, child]) => {
     console.log('pid', pid)
