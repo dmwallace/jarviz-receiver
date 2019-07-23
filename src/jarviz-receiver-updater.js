@@ -1,17 +1,17 @@
-const { spawnSync } = require('child_process')
+const { spawn } = require('child_process')
 
 let isUpdating = false
 
 setInterval(function() {
   if(isUpdating) {
-    //console.log("already updating");
+    console.log("already updating");
     return
   }
   
   isUpdating = true
-  const cp = spawnSync('git pull', { windowsHide: true })
+  const cp = spawn('git', ['pull'], { windowsHide: true })
   cp.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    //console.log(`stdout: ${data}`);
   });
   
   cp.stderr.on('data', (data) => {
