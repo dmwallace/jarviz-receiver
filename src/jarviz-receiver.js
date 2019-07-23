@@ -382,6 +382,8 @@ async function killProcess () {
         if (err) console.log(err)
         errors.push(err)
       })
+    } else {
+      resolve({ results, errors })
     }
   })
   
