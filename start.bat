@@ -1,1 +1,1 @@
-pm2 startOrGracefulReload ecosystem.json
+cd c:\jarviz-receiver && pm2 startOrGracefulReload ecosystem.json

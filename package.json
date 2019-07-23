@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.61",
+  "version": "2.0.62",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -22,11 +22,13 @@
     "postinstall": "pm2 startOrGracefulReload ecosystem.json && pm2 save",
     "commit": "git add -A && git status && npm version patch --force -m '%s'",
     "postversion": "ssh-add -A && git push && git push --tags",
-    "autorun": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"c:\\jarviz-receiver\\start.bat\" /F"
+    "preinstall": "npm install pm2@latest -g && npm install pm2-windows-startup -g pm2-startup install && npm run delete-scheduled-task",
+    "create-scheduled-task": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"c:\\jarviz-receiver\\start.bat\" /F",
+    "delete-scheduled-task": "schtasks /delete /TN jarviz-receiver"
   },
   "husky": {
     "hooks": {
-      "post-merge": "npm install && npm audit fix && npm run autorun"
+      "post-merge": "npm install && npm audit fix"
     }
   },
   "keywords": [],

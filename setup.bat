@@ -8,8 +8,5 @@ mkdir c:\jarviz-receiver
 cd c:\jarviz-receiver
 git clone https://github.com/dmwallace/jarviz-receiver.git .
 git checkout window-control
-npm install pm2@latest -g
-npm install pm2-windows-startup -g
-pm2-startup install
 npm install
 pause
