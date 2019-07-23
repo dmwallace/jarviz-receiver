@@ -23,6 +23,8 @@ var ifaces = os.networkInterfaces()
 var currentAppId
 var currentScenarioId
 
+let isBusy = false
+
 Object.keys(ifaces).forEach(function (ifname) {
   var alias = 0
   
@@ -231,6 +233,14 @@ async function setForegroundWindow (name) {
 async function spawnChild ({ id, command, cwd, args }, res) {
   let { results, errors } = await killProcess()
   
+  if (errors.find((err)=> err === 'busy')) {
+    res.send(JSON.stringify({ results, errors }))
+    console.log('\nRESULTS:', JSON.stringify(results, null, 3))
+    console.log('ERRORS:', JSON.stringify(errors, null, 3))
+    return
+  }
+  
+  
   //robot.keyTap('d', 'command')
   
   /*
@@ -331,8 +341,15 @@ app.post('/launch', async (req, res) => {
 })
 
 async function killProcess () {
+  
   let results = []
   let errors = []
+  
+  if (isBusy) {
+    errors.push(`busy`)
+    return Promise.resolve({results, errors})
+  }
+  isBusy = true
   
   return new Promise((resolve) => {
     if (child && child.pid) {
@@ -357,7 +374,7 @@ async function killProcess () {
       
       let taskkill = spawn(
         'taskkill',
-        ['/pid', child.pid],
+        ['/pid', child.pid, '/F'],
         {
           windowsHide: true,
         },
@@ -372,6 +389,7 @@ async function killProcess () {
           errors.push(str)
         } else {
           results.push(str)
+          child = null
         }
         
       })
@@ -384,6 +402,7 @@ async function killProcess () {
         console.log('ERRORS:', JSON.stringify(errors, null, 2))
         //child = null
         
+        isBusy = false
         resolve({ results, errors })
       })
       taskkill.on('error', (err) => {
