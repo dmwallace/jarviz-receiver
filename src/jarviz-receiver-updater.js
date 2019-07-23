@@ -4,22 +4,22 @@ let isUpdating = false
 
 setInterval(function() {
   if(isUpdating) {
-    console.log("already updatig");
+    //console.log("already updating");
     return
   }
   
   isUpdating = true
   const cp = spawn('git', ['pull'], { windowsHide: true })
   cp.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    //console.log(`stdout: ${data}`);
   });
   
   cp.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
+    //console.log(`stderr: ${data}`);
   });
   
   cp.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    //console.log(`child process exited with code ${code}`);
     isUpdating = false
   });
 }, 10000)
