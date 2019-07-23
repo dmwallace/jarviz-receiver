@@ -261,6 +261,7 @@ async function spawnChild({id, command, cwd, args}, res) {
 		args,
 		{
 			cwd,
+			windowsHide: true,
 		},
 	)
 	
