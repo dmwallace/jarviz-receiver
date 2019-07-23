@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.65",
+  "version": "2.0.66",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -19,7 +19,7 @@
     "start": "node build/jarviz-receiver.js",
     "reinstall": "rm -rf node_modules && npm install",
     "install-production": "rm -rf node_modules && npm install --only=prod",
-    "postinstall": "pm2 startOrGracefulReload ecosystem.json && pm2 save",
+    "postinstall": "npm run create-scheduled-task & pm2 startOrGracefulReload ecosystem.json && pm2 save",
     "commit": "git add -A && git status && npm version patch --force -m '%s'",
     "postversion": "ssh-add -A && git push && git push --tags",
     "_preinstall": "npm install pm2@latest -g && npm install pm2-windows-startup -g && pm2-startup install && npm run delete-scheduled-task",

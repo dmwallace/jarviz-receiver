@@ -13,8 +13,6 @@ schtasks /delete /TN jarviz-receiver /F ^
  & if exist C:\etc\.pm2\ rmdir C:\etc\.pm2\ /q /s ^
  & SET PM2_HOME=C:\etc\.pm2 ^
  & SETX PM2_HOME C:\etc\.pm2 /m ^
- & npm install pm2@latest -g ^
- & npm install pm2-windows-startup -g ^
  & pm2-startup install ^
  & npm install
 pause
