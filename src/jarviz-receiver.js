@@ -364,12 +364,14 @@ async function killProcess () {
       )
       
       taskkill.stdout.on('data', function (data) {
-        console.log('stdout: ' + data)
+        let str = data.toString()
         
-        if (data.toString().substr(0, 'ERROR'.length === 'ERROR')) {
-          errors.push(data)
+        console.log('stdout: ' + str)
+        
+        if (str.toString().substr(0, 'ERROR'.length === 'ERROR')) {
+          errors.push(str)
         } else {
-          results.push(data)
+          results.push(str)
         }
         
       })
