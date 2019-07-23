@@ -410,6 +410,7 @@ async function killProcess () {
         errors.push(err)
       })
     } else {
+      isBusy = false
       resolve({ results, errors })
     }
   })
