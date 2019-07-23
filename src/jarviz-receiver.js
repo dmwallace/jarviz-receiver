@@ -241,7 +241,7 @@ async function spawnChild ({ id, command, cwd, args }, res) {
     return
   }
   
-  //robot.keyTap('d', 'command')
+  robot.keyTap('d', 'command')
   
   /*
   var child2 = spawn(
@@ -265,7 +265,7 @@ async function spawnChild ({ id, command, cwd, args }, res) {
   //await doRobot()
   
   let child = spawn(
-    cmd,//'chrome.exe',
+    command,//'chrome.exe',
     args, //['news.com.au'],
     {
       cwd,
