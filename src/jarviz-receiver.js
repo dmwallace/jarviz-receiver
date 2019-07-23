@@ -365,11 +365,12 @@ async function killProcess () {
       
       taskkill.stdout.on('data', function (data) {
         console.log('stdout: ' + data)
-        if(data.substr(0, 'ERROR'.length === 'ERROR')) {
-          errors.push(data)
-        } else {
-          results.push(data)
-  
+        if(data && data.length) {
+          if (data.substr(0, 'ERROR'.length === 'ERROR')) {
+            errors.push(data)
+          } else {
+            results.push(data)
+          }
         }
       })
       taskkill.stderr.on('data', function (data) {
