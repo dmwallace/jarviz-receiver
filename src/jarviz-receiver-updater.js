@@ -9,13 +9,16 @@ setInterval(function() {
   }
   
   isUpdating = true
+  console.log("Checking for update...");
+  
+  
   const cp = spawn('git reset --hard && git pull', { shell: true, windowsHide: true })
   cp.stdout.on('data', (data) => {
-    //console.log(`stdout: ${data}`);
+    console.log(`stdout: ${data}`);
   });
   
   cp.stderr.on('data', (data) => {
-    //console.log(`stderr: ${data}`);
+    console.log(`stderr: ${data}`);
   });
   
   cp.on('close', (code) => {
