@@ -365,7 +365,9 @@ async function killProcess () {
       
       taskkill.stdout.on('data', function (data) {
         console.log('stdout: ' + data)
-        console.log("JSON.strigify(data)", JSON.strigify(data));
+        console.log("typeof data", typeof data);
+        
+        console.log("JSON.stringify(data)", JSON.stringify(data));
         
         if(data && data.length) {
           if (data.substr(0, 'ERROR'.length === 'ERROR')) {
