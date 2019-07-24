@@ -4,6 +4,7 @@ schtasks /delete /TN jarviz-receiver /F ^
  & @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin" ^
  & choco install -y nodejs.install --version 10.15.3 ^
  & choco install -y git -params '"/GitAndUnixToolsOnPath"' ^
+ & choco install -y vscode ^
  & RefreshEnv ^
  & rmdir c:\jarviz-receiver\ /q /s ^
  & mkdir c:\jarviz-receiver ^
