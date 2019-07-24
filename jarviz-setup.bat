@@ -15,6 +15,6 @@ schtasks /delete /TN jarviz-receiver /F ^
  & SETX PM2_HOME C:\etc\.pm2 /m ^
  & npm install -g windows-build-tools ^
  & npm install -g node-gyp ^
- & npm install -g pm2@latest ^
+ & npm install -g pm2@3 ^
  & npm install
 pause
