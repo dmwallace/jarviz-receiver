@@ -5,14 +5,16 @@ schtasks /delete /TN jarviz-receiver /F ^
  & choco install -y nodejs.install --version 10.15.3 ^
  & choco install -y git -params '"/GitAndUnixToolsOnPath"' ^
  & RefreshEnv ^
- & if exist c:\jarviz-receiver\ rmdir c:\jarviz-receiver\ /q /s ^
+ & rmdir c:\jarviz-receiver\ /q /s ^
  & mkdir c:\jarviz-receiver ^
  & cd c:\jarviz-receiver ^
  & git clone https://github.com/dmwallace/jarviz-receiver.git . ^
  & git checkout window-control ^
- & if exist C:\etc\.pm2\ rmdir C:\etc\.pm2\ /q /s ^
+ & rmdir C:\etc\.pm2\ /q /s ^
  & SET PM2_HOME=C:\etc\.pm2 ^
  & SETX PM2_HOME C:\etc\.pm2 /m ^
- & pm2-startup install ^
+ & npm install -g windows-build-tools ^
+ & npm install -g node-gyp ^
+ & npm install -g pm2@latest ^
  & npm install
 pause
