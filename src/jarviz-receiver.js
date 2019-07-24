@@ -241,17 +241,16 @@ async function spawnChild ({ id, command, cwd, args }, res) {
     return
   }
   
-  robot.keyTap('d', 'command')
-  
-  /*
-  var child2 = spawn(
+  spawn(
     'explorer.exe',
     ['shell:::{3080F90D-D7AD-11D9-BD98-0000947B0257}'],
-  )*/
+    { widowsHide: true}
+  )
   
-  /*var child2 = spawn('cmd.exe', ['/c', 'c:\\jarviz-receiver\\showdesktop.bat'])
-  console.log("child", child);
-  */
+  const {width, height} = robot.getScreenSize()
+  
+  robot.moveMouse(width, height / 2)
+  //robot.keyTap('d', 'command')
   
   console.log('spawning')
   if (args && args.length > 0) {
