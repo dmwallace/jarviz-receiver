@@ -11,5 +11,5 @@ if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit )
  & cd c:\jarviz-receiver ^
  & "C:\Program Files\Git\cmd\git" clone https://github.com/dmwallace/jarviz-receiver.git . ^
  & "C:\Program Files\Git\cmd\git" checkout window-control ^
- & jarviz-setup2.bat
+ & start c:\jarviz-receiver\jarviz-setup2.bat
 pause
