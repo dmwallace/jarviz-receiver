@@ -1,5 +1,7 @@
-set PM2_HOME=C:\etc\.pm2 ^
+ set PM2_HOME=C:\etc\.pm2 ^
  & setx /M PM2_HOME C:\etc\.pm2 ^
+ & set PATH="C:\ProgramData\npm;%PATH%" ^
+ & setx /M PATH "C:\ProgramData\npm;%PATH%" ^
  & rmdir C:\etc\.pm2\ /q /s ^
  & mkdir C:\etc ^
  & mkdir C:\etc\.pm2 ^
