@@ -5,7 +5,6 @@ if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit )
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y git -params '"/GitAndUnixToolsOnPath"' ^
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y python2 visualstudio2017-workload-vctools ^
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y vscode ^
- & set PATH="C:\ProgramData\npm;C:\Program Files\nodejs;C:\Program Files\Git\cmd\;Windows\System32;%PATH%" ^
  & rmdir c:\jarviz-receiver\ /q /s ^
  & mkdir c:\jarviz-receiver ^
  & cd c:\jarviz-receiver ^
