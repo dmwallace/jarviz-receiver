@@ -1,7 +1,4 @@
-if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit )
- set PM2_HOME=C:\etc\.pm2 ^
- & "C:\Windows\System32\setx" /M path "C:\ProgramData\npm;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;" ^
- & set path="C:\ProgramData\npm;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;" ^
+set PM2_HOME=C:\etc\.pm2 ^
  & setx /M PM2_HOME C:\etc\.pm2 ^
  & rmdir C:\etc\.pm2\ /q /s ^
  & mkdir C:\etc ^
@@ -23,4 +20,3 @@ if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit )
  & npm install -g pm2@3 ^
  & schtasks /delete /TN jarviz-receiver /F ^
  & npm install
-pause
