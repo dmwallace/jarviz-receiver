@@ -5,6 +5,8 @@ if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit )
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y git -params '"/GitAndUnixToolsOnPath"' ^
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y python2 visualstudio2017-workload-vctools ^
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y vscode ^
+ & "C:\Windows\System32\setx" /M path "C:\ProgramData\npm;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;" ^
+ & set path="C:\ProgramData\npm;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;" ^
  & rmdir c:\jarviz-receiver\ /q /s ^
  & mkdir c:\jarviz-receiver ^
  & cd c:\jarviz-receiver ^
