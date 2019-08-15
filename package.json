@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.89",
+  "version": "2.0.90",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -22,13 +22,13 @@
     "postinstall": "start-jarviz.bat & copy c:\\jarviz-receiver\\start-jarviz.bat \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\\"",
     "commit": "git add -A && git status && npm version patch --force -m '%s'",
     "postversion": "ssh-add -A && git push && git push --tags",
-    "preinstall": "npm i -g pm2@3",
+    "preinstall": "C:\\Program Files\\nodejs\\npm i -g pm2@3",
     "create-scheduled-task": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"c:\\jarviz-receiver\\start-jarviz.bat\" /F",
     "delete-scheduled-task": "schtasks /delete /TN jarviz-receiver /F"
   },
   "husky": {
     "hooks": {
-      "post-merge": "npm install"
+      "post-merge": "C:\\Program Files\\nodejs\\npm install"
     }
   },
   "keywords": [],
