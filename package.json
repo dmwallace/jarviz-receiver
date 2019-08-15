@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.96",
+  "version": "2.0.97",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -19,7 +19,7 @@
     "start": "node build/jarviz-receiver.js",
     "reinstall": "rm -rf node_modules && npm install",
     "install-production": "rm -rf node_modules && npm install --only=prod",
-    "postinstall": "start-jarviz.bat & copy /y c:\\jarviz-receiver\\start-jarviz.bat \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\\"",
+    "postinstall": "start-jarviz.bat & copy /y c:\\jarviz-receiver\\start-jarviz.bat \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\\" & del \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Jarvis Start.lnk\" /F",
     "commit": "git add -A && git status && npm version patch --force -m '%s'",
     "postversion": "ssh-add -A && git push && git push --tags",
     "preinstall": "npm i -g pm2@3",
