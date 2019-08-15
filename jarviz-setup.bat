@@ -1,5 +1,4 @@
-if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit )
- "C:\Windows\System32\taskkill" /F /IM node.exe ^
+"C:\Windows\System32\taskkill" /F /IM node.exe ^
  & @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;C:\ProgramData\npm\chocolatey\bin" ^
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y nodejs.install --version 10.15.3 ^
  & "C:\ProgramData\chocolatey\bin\choco" upgrade -y git -params '"/GitAndUnixToolsOnPath"' ^
