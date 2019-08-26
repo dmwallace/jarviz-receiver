@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.105",
+  "version": "2.0.106",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -38,6 +38,7 @@
     "async": "^3.1.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "edge-launcher": "^1.2.2",
     "express": "^4.16.4",
     "ffi": "^2.3.0",
     "fkill": "^5.1.0",
