@@ -269,6 +269,11 @@ async function spawnChild ({ id, command, cwd, args }, res) {
 	}
 	
 	//await doRobot()
+	// fix bug with chrome arguements order
+	if(args[args.length - 1].substr(0, 2) == '--') {
+		args = args.reverse()
+	}
+	
 	console.log('args', args)
 	
 	
