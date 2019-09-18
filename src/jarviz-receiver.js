@@ -269,6 +269,8 @@ async function spawnChild ({ id, command, cwd, args }, res) {
 	}
 	
 	//await doRobot()
+	console.log('args', args)
+	
 	
 	let child = spawn(
 		command,//'chrome.exe',

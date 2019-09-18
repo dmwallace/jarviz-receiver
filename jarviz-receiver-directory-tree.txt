@@ -1,0 +1,19 @@
+jarviz-receiver
+├── README.md // instructions for using jarviz-receiver
+├── build // compiled code
+│   └── jarviz-receiver.js
+├── config
+│   └── webpack.config.server.js // webpack config (see https://webpack.js.org/)
+├── ecosystem.json // autostart config for pm2 (see http://pm2.keymetrics.io/)
+├── jarviz-setup.bat // windows batch script for installing jarviz-receiver on a client PC
+├── node_modules // 3rd party libraries
+│   ...
+├── package-lock.json // lock file for npm (see https://www.npmjs.com/)
+├── package.json // npm package configuration
+├── src
+│   ├── index.js // auto reloading for development & testing
+│   ├── jarviz-receiver-updater.js // auto-updater (deprecated)
+│   └── jarviz-receiver.js // main source file
+├── start-jarviz.bat // batch file to run jarviz-receiver from windows task scheduler (deprecated)
+
+1685 directories, 10863 files // (not all files/directories listed above)
