@@ -12,7 +12,7 @@ setInterval(function() {
   console.log("Checking for update...");
 
 
-  const cp = spawn('rm c:/jarviz-receiver/.git/*.lock & rm c:/jarviz-receiver/.git/*.lock & git reset --hard & git pull', { shell: true, windowsHide: true })
+  const cp = spawn('rm c:/jarviz-receiver/.git/*.lock & rm c:/jarviz-receiver/.git/refs/heads/*.lock & git reset --hard & git pull', { shell: true, windowsHide: true })
   cp.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
