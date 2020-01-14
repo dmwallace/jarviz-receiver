@@ -20,7 +20,7 @@ set path=%git_path%;%path%
 set PM2_HOME=C:\etc\.pm2
 setx /M PM2_HOME C:\etc\.pm2
 git clone https://github.com/dmwallace/jarviz-receiver.git .
-git checkout window-control
+git checkout master
 rmdir C:\etc\.pm2\ /q /s
 mkdir C:\etc
 mkdir C:\etc\.pm2
