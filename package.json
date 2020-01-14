@@ -1,6 +1,6 @@
 {
   "name": "jarviz-receiver",
-  "version": "2.0.111",
+  "version": "2.0.112",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmwallace/jarviz-receiver.git"
@@ -21,7 +21,7 @@
     "install-production": "rm -rf node_modules && npm install --only=prod",
     "commit": "git add -A && git status && npm version patch --force -m '%s'",
     "postversion": "ssh-add -A && git push && git push --tags",
-    "preinstall": "rm c:/jarviz-receiver/.git/index.lock && git fetch && git checkout master && git reset --hard && git pull",
+    "preinstall": "rm c:/jarviz-receiver/.git/index.lock & git fetch && git checkout master && git reset --hard && git pull",
     "create-scheduled-task": "schtasks /create /TN jarviz-receiver /SC ONLOGON /RL HIGHEST /TR \"c:\\jarviz-receiver\\start-jarviz.bat\" /F",
     "delete-scheduled-task": "schtasks /delete /TN jarviz-receiver /F"
   },
