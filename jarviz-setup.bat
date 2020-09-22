@@ -11,11 +11,11 @@ set npm_path=C:\ProgramData\npm
 set node_path=C:\Program Files\nodejs
 set git_path=C:\Program Files\Git\cmd
 echo PATH=%path%
-echo %path%|find /i "%npm_path%">nul || setx /M PATH %npm_path%;"%path%"
+echo %path%|find /i "%npm_path%">nul || setx /M PATH "%npm_path%;%path%"
 set path=%npm_path%;%path%
-echo %path%|find /i "%node_path%">nul || setx /M PATH %node_path%;"%path%"
+echo %path%|find /i "%node_path%">nul || setx /M PATH "%node_path%;%path%"
 set path=%node_path%;%path%
-echo %path%|find /i "%git_path%">nul || setx /M PATH %git_path%;"%path%"
+echo %path%|find /i "%git_path%">nul || setx /M PATH "%git_path%;%path%"
 set path=%git_path%;%path%
 set PM2_HOME=C:\etc\.pm2
 setx /M PM2_HOME C:\etc\.pm2
