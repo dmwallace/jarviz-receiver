@@ -7,3 +7,9 @@ Right click jarviz-setup.bat and run as administrator.  If you get a windows war
 
 This will install jarviz-receiver along with all its dependencies and create a task to run on startup as well as an
 auto-update task (entire process can take several minutes)
+
+You can verify that jarviz-receiver is running correctly by going to http://localhost:5000/ping in a browser on the
+same machine (or http://[ip address of machine running jarviz-receiver]:5000/ping from another machine on the same
+network).
+
+If you see the hostname returned then jarviz-receiver is running correctly
