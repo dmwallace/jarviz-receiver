@@ -28,17 +28,18 @@ icacls C:\etc\.pm2 /grant "Authenticated Users":RX /T
 mkdir C:\ProgramData\npm\npm-cache
 mkdir C:\ProgramData\npm\npm
 mkdir C:\ProgramData\npm\npm\node_modules
-icacls C:\ProgramData\npm\npm-cache /grant "Authenticated Users":RX
-icacls C:\ProgramData\npm\npm /grant "Authenticated Users":RX
-icacls C:\ProgramData\npm\npm\node_modules /grant "Authenticated Users":RX
-icacls C:\ProgramData\npm\npm-cache /grant "Administrators":M
-icacls C:\ProgramData\npm\npm /grant "Administrators":M
-icacls C:\ProgramData\npm\npm\node_modules /grant "Administrators":M
-npm config --global set prefix "C:\ProgramData\npm"
-npm config --global set prefix "C:\ProgramData\npm"
-npm install -g node-gyp
-npm install -g pm2@3
-schtasks /delete /TN jarviz-receiver /F
-cd \jarviz-receiver
-npm install
-rmdir %APPDATA%\npm /q /s
+icacls C:\ProgramData\npm\npm-cache /grant "Authenticated Users":RX ^
+& icacls C:\ProgramData\npm\npm /grant "Authenticated Users":RX ^
+& icacls C:\ProgramData\npm\npm\node_modules /grant "Authenticated Users":RX ^
+& icacls C:\ProgramData\npm\npm-cache /grant "Administrators":M ^
+& icacls C:\ProgramData\npm\npm /grant "Administrators":M ^
+& icacls C:\ProgramData\npm\npm\node_modules /grant "Administrators":M 
+npm config --global set prefix "C:\ProgramData\npm" ^
+& npm install -g node-gyp ^
+& npm install -g pm2@3 ^
+& schtasks /delete /TN jarviz-receiver /F ^
+& cd \jarviz-receiver ^
+& npm install ^
+& rmdir %APPDATA%\npm /q /s ^
+& echo jarviz-receiver installed successfully. jarviz-receiver is running and will restart automatically upon system restart ^
+& pause
