@@ -40,7 +40,7 @@
     "cors": "^2.8.4",
     "depd": "^2.0.0",
     "edge-launcher": "^1.2.2",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "ffi": "^2.3.0",
     "fkill": "^5.1.0",
     "forcefocus": "^1.0.0",
